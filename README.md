@@ -1,42 +1,88 @@
-# markdown-app-vue
+# Markdown Preview App
 
-This template should help get you started developing with Vue 3 in Vite.
+A fast, modern markdown editor with live preview built with Vue 3, TypeScript, and Vite.
 
-## Recommended IDE Setup
+## 🎯 Features
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Live Preview** - Real-time markdown rendering
+- **Split View** - Edit and preview side-by-side
+- **File Operations** - Upload/download markdown files
+- **Cloud Sync** - Save documents to cloud
+- **Auto-save** - Automatic browser storage saving
+- **Dark/Light Mode** - Theme toggle
+- **Error Handling** - Comprehensive error management
+- **Responsive** - Works on all devices
 
-## Recommended Browser Setup
+## 🚀 Quick Start
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
+# Install dependencies
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+# Start dev server
 npm run dev
-```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
+# Build for production
 npm run build
 ```
+
+## 📁 Project Structure
+
+```
+src/
+├── components/      # UI components (Editor, Preview, CloudSync, etc.)
+├── views/          # Page components (Home, ErrorTest, ApiDemo, NotFound)
+├── composables/    # Reusable logic
+├── services/       # Logger, API services
+├── lib/            # Utilities (api, fileOperations, markdownParser)
+├── types/          # TypeScript types
+├── App.vue         # Root component
+├── main.ts         # Entry point
+└── index.css       # Global styles
+```
+
+## 🎮 Usage
+
+- **Edit** - Type markdown in the editor
+- **View Mode** - Switch between Editor/Split/Preview
+- **Save** - Download as .md file
+- **Upload** - Load a markdown file
+- **Cloud** - Save/load from cloud storage
+- **Theme** - Toggle dark/light mode
+
+## 📦 Dependencies
+
+- Vue 3
+- Vue Router
+- Pinia
+- TypeScript
+- Marked (markdown parser)
+- Axios (HTTP client)
+- Lucide Icons
+
+
+**Auto-save Delay** - Edit Home.vue:
+```typescript
+useThrottledAutosave(markdown, autosaveToStorage, { delay: 2000 })
+```
+
+## 💾 Storage
+
+- **Local**: Saves to browser storage (`markdown-content`)
+- **Cloud**: Optional API integration for cloud sync
+
+## 🐛 Troubleshooting
+
+| Issue | Solution |
+|-------|----------|
+| Content not showing | Clear cache (Ctrl+Shift+R), check console |
+| Cloud sync failing | Verify API endpoint, check network tab |
+| Markdown not parsing | Check syntax, verify `marked` is installed |
+
+## 📄 License
+
+MIT License
+
+---
+
+**Built with Vue 3 + TypeScript by Esther Bawo Tsotso** 
