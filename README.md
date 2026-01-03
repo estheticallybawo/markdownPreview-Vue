@@ -2,7 +2,7 @@
 
 A fast, modern markdown editor with live preview built with Vue 3, TypeScript, and Vite.
 
-## 🎯 Features
+##  Features
 
 - **Live Preview** - Real-time markdown rendering
 - **Split View** - Edit and preview side-by-side
@@ -13,7 +13,7 @@ A fast, modern markdown editor with live preview built with Vue 3, TypeScript, a
 - **Error Handling** - Comprehensive error management
 - **Responsive** - Works on all devices
 
-## 🚀 Quick Start
+##  Quick Start
 
 ```bash
 # Install dependencies
@@ -26,7 +26,7 @@ npm run dev
 npm run build
 ```
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 src/
@@ -41,7 +41,7 @@ src/
 └── index.css       # Global styles
 ```
 
-## 🎮 Usage
+##  Usage
 
 - **Edit** - Type markdown in the editor
 - **View Mode** - Switch between Editor/Split/Preview
@@ -50,7 +50,7 @@ src/
 - **Cloud** - Save/load from cloud storage
 - **Theme** - Toggle dark/light mode
 
-## 📦 Dependencies
+## Dependencies
 
 - Vue 3
 - Vue Router
@@ -66,12 +66,12 @@ src/
 useThrottledAutosave(markdown, autosaveToStorage, { delay: 2000 })
 ```
 
-## 💾 Storage
+##  Storage
 
 - **Local**: Saves to browser storage (`markdown-content`)
 - **Cloud**: Optional API integration for cloud sync
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 | Issue | Solution |
 |-------|----------|
@@ -79,7 +79,7 @@ useThrottledAutosave(markdown, autosaveToStorage, { delay: 2000 })
 | Cloud sync failing | Verify API endpoint, check network tab |
 | Markdown not parsing | Check syntax, verify `marked` is installed |
 
-## 📄 License
+##  License
 
 MIT License
 
