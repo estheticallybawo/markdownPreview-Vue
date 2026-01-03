@@ -1,0 +1,325 @@
+<!-- src/components/ApiDemo.vue -->
+<template>
+  <div class="container">
+    <h2 class="title">API Integration Demo</h2>
+    <p class="description">Test the cloud sync functionality with live API calls</p>
+
+    <div class="controls">
+      <button @click="testSaveAPI" :disabled="isLoading" class="testButton">Test Save API</button>
+      <button @click="testLoadAPI" :disabled="isLoading" class="testButton">Test Load API</button>
+      <button @click="testListAPI" :disabled="isLoading" class="testButton">Test List API</button>
+      <button @click="clearResults" :disabled="isLoading" class="clearButton">Clear Results</button>
+    </div>
+
+    <div v-if="isLoading" class="loading">Running API test...</div>
+
+    <div class="results">
+      <h3>API Test Results</h3>
+      <p v-if="testResults.length === 0" class="noResults">No tests run yet</p>
+      <div v-else class="resultsList">
+        <div
+          v-for="result in testResults"
+          :key="result.id"
+          :class="['result', result.success ? 'success' : 'error']"
+        >
+          <div class="resultHeader">
+            <span class="operation">{{ result.operation }}</span>
+            <span class="timestamp">{{ result.timestamp }}</span>
+            <span :class="['status', result.success ? 'statusSuccess' : 'statusError']">
+              {{ result.success ? 'SUCCESS' : 'ERROR' }}
+            </span>
+          </div>
+
+          <div v-if="result.success" class="resultData">
+            <pre>{{ JSON.stringify(result.data, null, 2) }}</pre>
+          </div>
+          <div v-else class="resultError">
+            <p><strong>Error:</strong> {{ result.error }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { saveMarkdownToAPI, loadMarkdownFromAPI, listMarkdownDocuments } from '../lib/api.ts'
+
+interface TestResult {
+  id: number
+  timestamp: string
+  operation: string
+  success: boolean
+  data: any
+  error: string | null
+}
+
+interface APIResult {
+  success: boolean
+  data?: any
+  error?: string
+}
+
+const testResults = ref<TestResult[]>([])
+const isLoading = ref(false)
+
+const addResult = (operation: string, success: boolean, data: any, error: string | null) => {
+  const result: TestResult = {
+    id: Date.now(),
+    timestamp: new Date().toLocaleTimeString(),
+    operation,
+    success,
+    data,
+    error,
+  }
+  testResults.value = [result, ...testResults.value]
+}
+
+const testSaveAPI = async () => {
+  isLoading.value = true
+  try {
+    const result: APIResult = await saveMarkdownToAPI(
+      'API Test Document',
+      '# Test Document\n\nThis is a test document created from the Markdown Preview App.\n\n## Features Tested\n- Save to API\n- JSON serialization\n- Error handling',
+      'test, api, demo',
+    )
+    addResult('Save Document', result.success, result.data, result.error || null)
+  } catch (error: any) {
+    addResult('Save Document', false, null, error.message)
+  }
+  isLoading.value = false
+}
+
+const testLoadAPI = async () => {
+  isLoading.value = true
+  try {
+    // Test with ID 1 (should exist in JSONPlaceholder)
+    const result: APIResult = await loadMarkdownFromAPI(1)
+    addResult('Load Document', result.success, result.data, result.error || null)
+  } catch (error: any) {
+    addResult('Load Document', false, null, error.message)
+  }
+  isLoading.value = false
+}
+
+const testListAPI = async () => {
+  isLoading.value = true
+  try {
+    const result: APIResult = await listMarkdownDocuments(5)
+    addResult('List Documents', result.success, result.data, result.error || null)
+  } catch (error: any) {
+    addResult('List Documents', false, null, error.message)
+  }
+  isLoading.value = false
+}
+
+const clearResults = () => {
+  testResults.value = []
+}
+</script>
+
+<style scoped>
+.container {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+.description {
+ color: var(--color-text-primary);
+  margin-bottom: 2rem;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  color: var(--color-text-primary);
+  
+}
+
+.testButton {
+  padding: 0.75rem 1rem;
+  background: var(--color-primary);
+ color: var(--color-text-secondary);
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.testButton:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
+
+.testButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.clearButton {
+  padding: 0.75rem 1rem;
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+}
+
+.clearButton:hover:not(:disabled) {
+  background: var(--color-hover);
+  color: var(--color-text-primary);
+}
+
+.loading {
+  text-align: center;
+  padding: 1rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+.results h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 1rem;
+}
+
+.noResults {
+  text-align: center;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  padding: 2rem;
+}
+
+.resultsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.result {
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  background: var(--color-surface);
+}
+
+.result.success {
+  border-left: 4px solid #10b981;
+}
+
+.result.error {
+  border-left: 4px solid #ef4444;
+}
+
+.resultHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.operation {
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.timestamp {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.status {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.statusSuccess {
+  background: #d1fae5;
+  color: #059669;
+}
+
+.statusError {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.resultData {
+  margin-top: 0.5rem;
+}
+
+.resultData pre {
+  background: var(--color-background);
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  padding: 0.75rem;
+  font-size: 0.75rem;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  overflow-x: auto;
+  color: var(--color-text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.resultError p {
+  margin: 0;
+  color: #dc2626;
+  font-size: 0.875rem;
+}
+
+/* Dark mode adjustments */
+[data-theme='dark'] .statusSuccess {
+  background: #064e3b;
+  color: #10b981;
+}
+
+[data-theme='dark'] .statusError {
+  background: #7f1d1d;
+  color: #ef4444;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .controls {
+    flex-direction: column;
+  }
+
+  .testButton,
+  .clearButton {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .resultHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+</style>

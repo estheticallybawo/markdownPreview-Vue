@@ -1,0 +1,123 @@
+/* CSS Variables for theming */
+:root {
+  /* Light mode colors */
+  --bg-color: #ffffff;
+  --secondary-bg: #f9fafb;
+  --text-color: #1f2937;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+  --button-bg: #f3f4f6;
+  --button-hover-bg: #e5e7eb;
+  --border-hover-color: #d1d5db;
+  --accent-color: #3b82f6;
+  --accent-hover: #2563eb;
+  --success-color: #10b981;
+  --error-color: #ef4444;
+  --code-bg: #f3f4f6;
+  --code-color: #1f2937;
+}
+
+[data-theme='dark'] {
+  --bg-color: #0f172a;
+  --secondary-bg: #1e293b;
+  --text-color: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  --border-color: #334155;
+  --button-bg: #1e293b;
+  --button-hover-bg: #334155;
+  --border-hover-color: #475569;
+  --accent-color: #3b82f6;
+  --accent-hover: #2563eb;
+  --success-color: #10b981;
+  --error-color: #ef4444;
+  --code-bg: #1e293b;
+  --code-color: #f1f5f9;
+}
+
+/* Global font improvements */
+body {
+  font-family:
+    'Inter', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--secondary-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Selection styling */
+::selection {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+::-moz-selection {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+/* Link styling */
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-hover);
+  text-decoration: underline;
+}
+
+/* Button reset */
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* Input reset */
+input,
+textarea {
+  font-family: inherit;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
